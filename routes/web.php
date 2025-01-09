@@ -1,8 +1,11 @@
 <?php
 
+use App\Livewire\BoardShow;
 use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'welcome');
+
+Route::get('/boards/{board:slug}', BoardShow::class)->middleware(['auth:web', 'verified'])->name('board.show');
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
