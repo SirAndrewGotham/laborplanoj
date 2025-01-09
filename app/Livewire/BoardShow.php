@@ -18,6 +18,9 @@ class BoardShow extends Component
     #[Layout('layouts.app')]
     public function render()
     {
-        return view('frontend.boards.board-show');
+        return view('frontend.boards.board-show', [
+            'board' => $this->board,
+            'columns' => $this->board->columns,
+        ]);
     }
 }

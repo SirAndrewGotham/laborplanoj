@@ -5,14 +5,14 @@
         <div
             x-data="{ editing: false }"
             x-on:click.outside="editing = false"
-            class="flex items-center justify-between">
-            <div class="h-8 w-full flex items-center px-4 pr-0 min-w-0">
+            class="h-8 w-full flex items-center px-4 pr-0 min-w-0"
+        >
                 <button
                     class="text-left w-full font-medium"
                     x-on:click="editing = true"
                     x-show="!editing"
                 >
-                    Column title
+                    {{ $column->name }}
                 </button>
                 <template x-if="editing">
                     <form class="-ml-[calc(theme('margin[1.5]')+1px)] grow">
@@ -22,7 +22,7 @@
             </div>
             {{--// Header Title --}}
             {{-- Header Dropdown --}}
-            <div class="p-3.5 py-3">
+            <div class="px-3.5 py-3">
                 <x-dropdown>
                     <x-slot name="trigger">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -38,12 +38,11 @@
             </div>
             {{--// Header Dropdown --}}
         </div>
-    </div>
     {{--// Column headers --}}
     {{-- Cards --}}
     <div class="p-3 space-y-1.5 pt-0 overflow-y-scroll">
-        @foreach(range(1,random_int(1,30)) as $card)
-            <livewire:card/>
+        @foreach($cards as $card)
+            <livewire:card wire:key="$card->id" :card="$card" />
         @endforeach
     </div>
     {{--// Cards --}}
