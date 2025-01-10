@@ -15,7 +15,7 @@
         >
             @foreach($columns as $column)
                 <div wire:key="{{ $column->id }}" wire:sortable.item="{{ $column->id }}">
-                    <livewire:column :key="$column->id" :column="$column" />
+                    <livewire:boards.column :key="$column->id" :column="$column" />
                 </div>
             @endforeach
             <div

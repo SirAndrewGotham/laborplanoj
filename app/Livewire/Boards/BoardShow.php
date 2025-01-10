@@ -1,10 +1,9 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Boards;
 
 use App\Livewire\Forms\CreateColumn;
 use App\Models\Board;
-use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
 use Livewire\Attributes\Layout;

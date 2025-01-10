@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Boards;
 
 use Livewire\Component;
 
@@ -9,6 +9,6 @@ class Card extends Component
     public \App\Models\Card $card;
     public function render()
     {
-        return view('livewire.card');
+        return view('frontend.boards.card');
     }
 }

@@ -10,13 +10,14 @@
                 <button
                     class="text-left w-full font-medium"
                     x-on:click="editing = true"
+                    x-on:column-updated.window="editing = false"
                     x-show="!editing"
                 >
                     {{ $column->name }}
                 </button>
                 <template x-if="editing">
-                    <form class="-ml-[calc(theme('margin[1.5]')+1px)] grow">
-                        <x-text-input value="Column title" class="h-8 px-1.5 w-full"/>
+                    <form wire:submit="updateColumn" class="-ml-[calc(theme('margin[1.5]')+1px)] grow">
+                        <x-text-input value="Column name" class="h-8 px-1.5 w-full" wire:model="editColumnForm.name" />
                     </form>
                 </template>
             </div>
@@ -46,7 +47,7 @@
     >
         @foreach($cards as $card)
             <div wire:key="{{ $card->id }}" wire:sortable-group.item="{{ $card->id }}">
-                <livewire:card :key="$card->id" :card="$card" />
+                <livewire:boards.card :key="$card->id" :card="$card" />
             </div>
         @endforeach
     </div>
