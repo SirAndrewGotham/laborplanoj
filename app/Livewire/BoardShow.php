@@ -2,15 +2,18 @@
 
 namespace App\Livewire;
 
+use App\Livewire\Forms\CreateColumn;
 use App\Models\Board;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Str;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
 class BoardShow extends Component
 {
     public Board $board;
+    public CreateColumn $createColumnForm;
 
     public function mount()
     {
@@ -25,7 +28,7 @@ class BoardShow extends Component
 //        dd($order);
 //        \App\Models\Column::setNewOrder($order); // this resets the order
         \App\Models\Column::setNewOrder($order, 1, 'id', function (Builder $query) {
-            $query->where('user_id', auth()->id()); // only creator can sort
+            $query->whereBelongsTo(auth()->user()); // only creator can sort
         });
     }
 
@@ -50,6 +53,25 @@ class BoardShow extends Component
                 $query->where('user_id', auth()->id());
             });
         });
+    }
+
+    public function createColumn()
+    {
+        $this->createColumnForm->validate();
+
+//        $column = $this->board->columns()->make($this->createColumnForm->only('name'));
+        $column = $this->board->columns()->create([
+            'user_id' => auth()->id(),
+            'name' => $this->createColumnForm->name,
+            // TODO: move slug generation to a separate function and make sure it generates unique strings
+            'slug' => Str::slug($this->createColumnForm->name),
+        ]);
+        $column->user()->associate(auth()->user());
+        $column->save();
+
+        $this->createColumnForm->reset();
+
+        $this->dispatch('column-created'); // event for alpine to reset and display add button again
     }
 
     #[Layout('layouts.app')]
