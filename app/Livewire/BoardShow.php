@@ -4,15 +4,29 @@ namespace App\Livewire;
 
 use App\Models\Board;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
 class BoardShow extends Component
 {
     public Board $board;
+
     public function mount()
     {
         $this->authorize('view', $this->board);
+    }
+
+    public function sorted(array $items)
+    {
+        // pluck out correct order of the ids, which is transferred as "value"
+        $order = collect($items)->pluck('value')->toArray();
+        // use sortable package to set the order
+//        dd($order);
+//        \App\Models\Column::setNewOrder($order); // this resets the order
+        \App\Models\Column::setNewOrder($order, 1, 'id', function (Builder $query) {
+            $query->where('user_id', auth()->id()); // only creator can sort
+        });
     }
 
     #[Layout('layouts.app')]
