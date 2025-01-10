@@ -20,7 +20,7 @@ class BoardShow extends Component
     {
         return view('frontend.boards.board-show', [
             'board' => $this->board,
-            'columns' => $this->board->columns,
+            'columns' => $this->board->columns()->ordered()->get(),
         ]);
     }
 }
